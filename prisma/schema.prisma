@@ -1,0 +1,32 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model Item {
+	id            String    @default(cuid()) @id
+	title         String
+	createdAt     DateTime  @default(now()) @map(name: "created_at")
+    updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+	email         String
+	accessToken   String?    @map(name: "access_token")
+	@@map(name: "items")
+}
+
+generator kysely {
+    provider = "prisma-kysely"
+
+    // Optionally provide a destination directory for the generated file
+    // and a filename of your choice
+    output = "../src/db"
+    fileName = "types.ts"
+    // Optionally generate runtime enums to a separate file
+     enumFileName = "enums.ts"
+}
