@@ -1,0 +1,1 @@
+export type StringsOnlyRecord<T extends string> = Record<T,string>
