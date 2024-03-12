@@ -23,7 +23,7 @@ const itemsTablePromise = db.schema
 	.addColumn('title','varchar(255)',(cb)=>cb.notNull())
 	.addColumn('type',tsEnum(ItemTypes),(cb)=>cb.notNull())
 	.addColumn('price','integer')
-	.addCheckConstraint('min_price',sql`price > 0`)
+	.addCheckConstraint('min_price',sql`price  0.01`)
     .addColumn('createdAt', sql`timestamp with time zone`, (cb) =>
       cb.defaultTo(sql`current_timestamp`)
     )

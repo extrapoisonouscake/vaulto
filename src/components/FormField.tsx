@@ -1,27 +1,27 @@
-import { FieldError, UseFormRegister } from "react-hook-form";
-
+import { WithRequired } from "@/types/utils";
+import { Input, InputProps } from "@nextui-org/react";
+import { HTMLAttributes, HTMLProps } from "react";
+import { FieldError, UseFormRegister, useFormContext } from "react-hook-form";
+type InputHTMLProps = HTMLProps<HTMLInputElement>
 interface Props {
-	type?: string;
-    placeholder: string;
-    name: string;
-    register: UseFormRegister<any>;//!fix
     error?: FieldError;
     valueAsNumber?: boolean;
 }
-export const FormField: React.FC<Props> = ({
-	type='text',
+export function FormField({
 	placeholder,
 	name,
-	register,
 	error,
+	label,
 	valueAsNumber,
-  }) => (
+	...props
+  }:Props&WithRequired<InputProps,'placeholder'|'name'>) {
+	const { register } = useFormContext()
+	return(
 	<>
-	  <input
-		type={type}
-		placeholder={placeholder}
+	  <Input
 		{...register(name, { valueAsNumber })}
+		{...props}
 	  />
 	  {error && <span className="error-message">{error.message}</span>}
 	</>
-  );
+  )};
